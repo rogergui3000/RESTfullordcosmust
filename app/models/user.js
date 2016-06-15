@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
+var sanitizer = require('sanitizer'); // data santize
  
 // set up a mongoose model
 var UserSchema = new Schema({
@@ -17,6 +18,10 @@ var UserSchema = new Schema({
  
 UserSchema.pre('save', function (next) {
     var user = this;
+    
+    user.password = sanitizer.sanitize(user.password); // sanitize input
+    user.email = sanitizer.normalizeRCData(user.email);
+
     if (this.isModified('password') || this.isNew) {
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
