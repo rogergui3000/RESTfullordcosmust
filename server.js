@@ -6,6 +6,7 @@ var mongoose    = require('mongoose');
 var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
+var sanitizer = require('sanitizer'); // data santize
 var port        = process.env.PORT || 8080;
 var jwt         = require('jwt-simple');
  
